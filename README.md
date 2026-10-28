@@ -5,7 +5,7 @@ with this one were are going to implement a Pipeline that is going to receive a 
 Also this proyect is to test my knowledge, for the use of this tecnologies 
  - Python
  - PySpark
- - PostgreSQl
+ - PostgreSQL
 
 And the capabilites of the Data Analysis, and the use of DataBases
 
