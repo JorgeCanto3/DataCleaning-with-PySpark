@@ -1,8 +1,8 @@
 # Pipeline for Data Analysis with PySpark
-In this proyect where are gone practice the use of PySpark with a DataSet from Keggle. The proyect use **ETL** (Extract, Transform and Load) 
-with this one were are going to implement a Pipeline that is going to receive a Dataset specified below and transformed in a desired value to uploaded in our DataBase 
+In this project, we implement an **ETL (Extract, Transform, and Load) Data Pipeline** using **PySpark** and a Retail Sales Dataset from **Kaggle**. The pipeline extracts raw transaction records, cleans and transforms the data to calculate regional and country-level sales, loads the processed data into a **PostgreSQL** database, and exports analytical reports in **Avro** (or CSV) format.
 
-Also this proyect is to test my knowledge, for the use of this tecnologies 
+This project demonstrates Data Engineering and Data Analysis capabilities using the following technologies:
+
  - Python
  - PySpark
  - PostgreSQL
@@ -13,10 +13,9 @@ And the capabilites of the Data Analysis, and the use of DataBases
 
 ## DataSet 
 
-To use this proyect you will need the following [DataSet](https://www.kaggle.com/datasets/danielsowah123/retail-sales-dataset?resource=download ), is a Retail Sales Dataset from Kaggle. 
+To use this proyect you will need the [Retail Sales Dataset from Kaggle](https://www.kaggle.com/datasets/danielsowah123/retail-sales-dataset?resource=download ), is a Retail Sales Dataset from Kaggle. 
 
-The Dataset contains a pretty good amount of columns for the analysis, but for this case we're going to use only the Column "Country" and "Sales Amount"
-this to know the sales per region, also this regions where made up by me, the countrys in the regions are the next ones
+Although the dataset contains multiple columns for transactional analysis, this pipeline focuses primarily on `"Country"` and `"Sales_Amount"` to evaluate sales performance across markets. A custom regional classification was defined as follows:
 
 - Europe
      - Germany
@@ -30,7 +29,7 @@ this to know the sales per region, also this regions where made up by me, the co
  
 ## PySpark
 
-For the use of this code you will need PySpark, is easy to install you will only have to use the following command on your terminal
+For the use of this code you will need PySpark.You can easily install it via terminal using `pip`:
 
 ``` terminal
 pip install pyspark
@@ -54,6 +53,19 @@ The proyect was implemented following the next diagram of the pipeline for the E
 
 # Run
 
-To run succesfully this code you must have the DataSet Downloanded and Pyspark installed. If the Dataset is not in the same Folder as the Code you must change the variable `file_path` with yours, also you will need to provide your password on the `db_access` variable to connect succesfuly with you DataBase, this for the load of the DataFrame Transformed.
+To run succesfully this code you must have the following.
 
-Once you acomplish the requierments mentionted before, you wont have any trouble running it. When the file has finished you will get the files uploaded and two Files called `Global_Report_Retail` and `Europe_Report_Retail` in AVRO format, if you wish to get an CSV format just change this in their respective variables with 'csv' 
+1. If the Dataset is not in the same Folder as the Code you must change the variable `file_path` with yours
+2. You must change the credentials with yours. By providing your password on the `db_access` variable, this for the load of the DataFrame Transformed.
+3. To execute the script you can do this:
+
+```terminal
+ python Pipeline_Gtec.py
+```
+    
+   
+Once execution finishes, the cleaned records will be uploaded to your PostgreSQL database, and two output report directories will be generated in Avro format:
+ -`Global_Report_Retail`
+ -`Europe_Report_Retail`
+ 
+ If you wish to get an CSV format, simply change the `.format("avro")` parameter to 'csv' in their respective export variables.
