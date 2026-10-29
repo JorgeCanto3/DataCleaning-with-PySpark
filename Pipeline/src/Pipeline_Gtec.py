@@ -21,10 +21,10 @@ spark = SparkSession.builder \
   .getOrCreate()
 
 
-jdbc_url = "jdbc:postgresql://4.tcp.ngrok.io:26020/retail_sales" #Change the Database name for the one you assign
+jdbc_url = "jdbc:postgresql://localhost:5432/retail_sales" #Change the Database name for the one you assign
 db_access ={
     "user" : "postgres",
-    "password" : "1234", # Put your Password
+    "password" : "", # Put your Password
     "driver" : "org.postgresql.Driver"
 }
 
