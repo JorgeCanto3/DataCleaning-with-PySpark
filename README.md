@@ -66,7 +66,7 @@ To run succesfully this code you must have the following.
    
 Once execution finishes, the cleaned records will be uploaded to your PostgreSQL database, and two output report directories will be generated in Avro format:
   
-  -`Global_Report_Retail`
-  -`Europe_Report_Retail`
+  - `Global_Report_Retail`
+  - `Europe_Report_Retail`
  
  If you wish to get an CSV format, simply change the `.format("avro")` parameter to 'csv' in their respective export variables.
