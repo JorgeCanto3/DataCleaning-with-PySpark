@@ -24,28 +24,52 @@ Although the dataset contains multiple columns for transactional analysis, this 
 - America 
      - Canada
      - United States 
-- Ocenia
+- Oceania
      - Australia
- 
+## DataBase
+
+The database used was only two tables without any relations or PK,FK. If you dont want to create the database by your self here are the querys to create everything in a few seconds
+
+```
+CREATE DATABASE retail_sales;
+
+CREATE TABLE report_retailsales_global(
+	region VARCHAR(50),
+	amount_per_region INT,
+	percentage NUMERIC,
+	year_report VARCHAR (60),
+	indicator VARCHAR (60)
+);
+
+CREATE TABLE report_retailsales_europe(
+	country VARCHAR(50),
+	europe_sales INT,
+	percentage NUMERIC,
+	year_report VARCHAR (60)
+);
+
+```
+
+
 ## PySpark
 
-For the use of this code you will need PySpark.You can easily install it via terminal using `pip`:
+For the use of this code you will need PySpark. You can easily install it via terminal using `pip`:
 
 ``` terminal
 pip install pyspark
 ```
-And a the SQL dependencie
+And the SQL dependency
 
 ```
 pip install pyspark[sql]
 ```
 
-If you need more help or information I'll recommend the offical guide of Apache Spark. Just [Click Here](https://spark.apache.org/docs/latest/api/python/getting_started/install.html) consult it 
+If you need more help or information I'll recommend the offical of Apache Spark. Just [Click Here](https://spark.apache.org/docs/latest/api/python/getting_started/install.html) consult it 
 
 
 # Pipeline 
 
-The proyect was implemented following the next diagram of the pipeline for the ETL process 
+The project was implemented following the next diagram of the pipeline for the ETL process 
 
 <img width="1060" height="634" alt="image" src="https://github.com/user-attachments/assets/d324edac-9ad3-4de7-a7e1-4a1183c5fcba" />
 
