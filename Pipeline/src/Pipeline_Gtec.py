@@ -9,7 +9,6 @@ Original file is located at
 
 import pyspark
 from pyspark.sql import SparkSession, Window
-import pyspark.sql.types as T
 import pyspark.sql.functions as F
 
 
