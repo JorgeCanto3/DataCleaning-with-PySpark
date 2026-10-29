@@ -49,8 +49,6 @@ The proyect was implemented following the next diagram of the pipeline for the E
 
 <img width="1060" height="634" alt="image" src="https://github.com/user-attachments/assets/d324edac-9ad3-4de7-a7e1-4a1183c5fcba" />
 
-# Code Functions
-
 # Run
 
 To run succesfully this code you must have the following.
