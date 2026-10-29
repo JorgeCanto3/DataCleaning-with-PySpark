@@ -1,5 +1,5 @@
 # Pipeline for Data Analysis with PySpark
-In this project, we implement an **ETL (Extract, Transform, and Load) Data Pipeline** using **PySpark** and a Retail Sales Dataset from **Kaggle**. The pipeline extracts raw transaction records, cleans and transforms the data to calculate regional and country-level sales, loads the processed data into a **PostgreSQL** database, and exports analytical reports in **Avro** (or CSV) format.
+In this project, we implement an **ETL (Extract, Transform, and Load) Data Pipeline** using **PySpark** and a Retail Sales Dataset from **Kaggle**. The pipeline extracts raw transaction records, cleans and transforms the data to calculate regional and country sales, loads the processed data into a **PostgreSQL** database, and exports analytical reports in **Avro** (or CSV) format.
 
 This project demonstrates Data Engineering and Data Analysis capabilities using the following technologies:
 
