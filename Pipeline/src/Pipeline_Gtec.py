@@ -12,12 +12,22 @@ from pyspark.sql import SparkSession, Window
 import pyspark.sql.types as T
 import pyspark.sql.functions as F
 
+
 spark = SparkSession.builder \
   .appName("Retail_Sales_Europe") \
   .config("spark.memory.offHeap.enabled", "true") \
   .config("spark.memory.offHeap.size", "10g") \
-  .config("spark.jars.packages", "org.apache.spark:spark-avro_2.12:3.5.3") \
+  .config("spark.jars.packages", "org.apache.spark:spark-avro_2.12:3.5.3,org.postgresql:postgresql:42.7.3") \
   .getOrCreate()
+
+
+jdbc_url = "jdbc:postgresql://4.tcp.ngrok.io:26020/retail_sales" #Change the Database name for the one you assign
+db_access ={
+    "user" : "postgres",
+    "password" : "1234", # Put your Password
+    "driver" : "org.postgresql.Driver"
+}
+
 
 def load_data(route,region):
   df = spark.read.csv(route,header = True,escape="\"")
@@ -44,22 +54,23 @@ def pipeline(dataset,region):
   .groupby('Country').agg(F.round(F.sum('Sales_Amount')).alias('Europe_Sales'))\
   .withColumn("Total_Europe_Sales",F.round(F.sum("Europe_Sales").over(window_europe)))\
   .withColumn('Percentage',F.round( (F.col("Europe_Sales") / F.col("Total_Europe_Sales")) * 100))\
-  .select("Country","Europe_Sales","Percentage")
+  .withColumn('Year_Report',F.lit('2026'))\
+  .select("Country","Europe_Sales","Percentage","Year_Report")
 
   window_global = Window.partitionBy()
 
   df_total_global = dataset.groupby('Region').agg(F.round(F.sum('Sales_Amount')).alias('Amount_per_Region'))\
   .withColumn("Total_Global",F.round(F.sum("Amount_per_Region").over(window_global)))\
   .withColumn('Percentage',F.round( (F.col("Amount_per_Region") / F.col("Total_Global")) * 100))\
-  .select("Region","Amount_per_Region","Percentage")
+  .withColumn('Year_Report',F.lit('2026'))\
+  .select("Region","Amount_per_Region","Percentage",'Year_Report')
 
   min_global = df_total_global.agg(F.min("Percentage")).collect()
   df_total_global =  df_total_global.withColumn("Indicator",F.when(
-      F.col("Percentage")==min_global[0][0],"Low Performance").otherwise("Normal Performance")
+      F.col("Percentage")==min_global[0][0],"Low Performance").otherwise("Normal Performance"))
 
-  )
-
-
+  df_total_global.show()
+  df_europe.show()
 
   return df_total_global,df_europe
 
@@ -67,7 +78,7 @@ region = {'Europe':['Germany', 'United Kingdom','France'],
           'America':['Canada','United States'],
           'Oceania':['Australia']}
 
-file_path = "/data/Sales_transactions_2022_2025.csv"
+file_path = "Sales_transactions_2022_2025.csv"
 
 
 df = load_data(file_path,region)
@@ -78,12 +89,28 @@ global_report,europe_report = pipeline(df,region)
 global_report.select(
     F.col("Region"),
     F.col("Amount_per_Region"),
-    F.col("Percentage")
+    F.col("Percentage"),
+    F.col('Year_Report')
 ).write.mode("overwrite").format("avro").save("Global_Report_Retail.avro")
 
 europe_report.select(
     F.col("Country"),
     F.col("Europe_Sales"),
-    F.col("Percentage")
+    F.col("Percentage"),
+    F.col('Year_Report')
 ).write.mode("overwrite").format("avro").save("Europe_Report_Retail.avro")
+
+global_report.write.jdbc(
+    url=jdbc_url,
+    table="Report_RetailSales_Global",
+    mode="append",
+    properties=db_access,
+)
+
+europe_report.write.jdbc(
+    url=jdbc_url,
+    table="Report_RetailSales_Europe",
+    mode="append",
+    properties=db_access,
+)
 
