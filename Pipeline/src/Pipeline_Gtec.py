@@ -67,7 +67,7 @@ region = {'Europe':['Germany', 'United Kingdom','France'],
           'America':['Canada','United States'],
           'Oceania':['Australia']}
 
-file_path = "Sales_transactions_2022_2025.csv"
+file_path = "/data/Sales_transactions_2022_2025.csv"
 
 
 df = load_data(file_path,region)
